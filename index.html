@@ -12,19 +12,31 @@
             height: 100%;
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
         }
 
         #map {
             width: 100%;
             height: 100%;
+            /* Set initial height to 100% of viewport */
         }
 
-        .buccleuch-button {
-            background-color: white;
-            border: 2px solid #ccc;
-            padding: 5px 10px;
+        #title-banner {
+            background-color: #489AA9;
+            color: #fff;
+            padding: 2px 0;
             text-align: center;
-            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #top-title {
+            margin: 0;
         }
 
         .leaflet-marker-icon {
@@ -39,109 +51,37 @@
             font-weight: bold;
         }
 
-
-        /* Control the left side */
-        #top,
-        #bottom {
-            position: fixed;
-            left: 0;
-            right: 0;
-        }
-
-        #top {
-            top: 0;
-            height: 50%;
-        }
-
-        #bottom {
-            bottom: 0;
-            height: 50%;
-            text-align: center;
-        }
-
-        .image-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            max-width: 100%;
-            /* Limit the width of the container */
-            max-height: 100%;
-            /* Limit the height of the container */
-        }
-
-        .image-container img {
-            max-width: 100%;
-            max-height: 100%;
-            width: auto;
-            height: auto;
-            object-fit: contain;
-            /* Ensure the entire image is visible without being cropped */
-        }
-
-        .text-block {
-            padding: 20px;
-            text-align: center;
-        }
-
-        .text-block h2 {
-            margin-top: 10px;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        .text-block p {
-            margin-bottom: 10px;
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 15px;
-            text-align: justify;
-        }
-
         .hidden {
             display: none;
-        }
-
-
-        #top-title {
-            color: black;
-            z-index: 2;
-            /* Ensure it has a higher z-index than other elements */
-            margin-left: 20px;
-            /* Add some margin if needed */
         }
     </style>
 </head>
 
 <body>
-    <div id="bottom">
-        <div class="centered">
-            <div class="image-container" id="image" class="hidden">
-                <img src='https://raw.githubusercontent.com/buccleuch/energy-projects/main/Web%20Map%20Images/View_1.png' alt="Visible Image">
-            </div>
-            <div class="image-container" id="image1" class="hidden">
-                <img src='https://raw.githubusercontent.com/buccleuch/energy-projects/main/Web%20Map%20Images/View_2.png' alt="Visible Image">
-            </div>
-            <div class="image-container" id="image2" class="hidden">
-                <img src='https://raw.githubusercontent.com/buccleuch/energy-projects/main/Web%20Map%20Images/View_3.png' alt="Visible Image">
-            </div>
-            <div class="image-container" id="image3" class="hidden">
-                <img src='https://raw.githubusercontent.com/buccleuch/energy-projects/main/Web%20Map%20Images/View_4.png' alt="Visible Image">
-            </div>
-            <div class="image-container" id="image4" class="hidden">
-                <img src='https://raw.githubusercontent.com/buccleuch/energy-projects/main/Web%20Map%20Images/View_5.png' alt="Visible Image">
-            </div>
-            <div class="image-container" id="image5" class="hidden">
-                <img src='https://raw.githubusercontent.com/buccleuch/energy-projects/main/Web%20Map%20Images/View_6.png' alt="Visible Image">
-            </div>
+    <div id="title-banner">
+        <div id="top-title">
+            <h1>Oakley Bush BESS</h1>
         </div>
     </div>
+    <div id="map"></div>
 
-    <div id="top">
-        <div id="map"></div>
-    </div>
+    <script>
+        // Adjust map height to fit the viewport
+        function resizeMap() {
+            var titleBannerHeight = document.getElementById('title-banner').offsetHeight;
+            var viewportHeight = window.innerHeight;
+            var mapHeight = viewportHeight - titleBannerHeight;
+            document.getElementById('map').style.height = mapHeight + 'px';
+        }
+
+        // Resize the map initially and on window resize
+        window.onload = resizeMap;
+        window.onresize = resizeMap;
+    </script>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
-        var map = L.map('map').setView([52.452175, -0.69363611], 15);
+        var map = L.map('map').setView([52.447175, -0.69363611], 14);
         var mapLink = '<a href="http://www.esri.com/">Esri</a>';
         var wh
         var wholink = 'i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
@@ -168,22 +108,22 @@
 
         //map.setMaxBounds(map.getBounds());
 
-        var customIcon1 = L.divIcon({
+        var customIcon4 = L.divIcon({
             className: 'leaflet-marker-icon',
             html: '4',
             iconSize: [30, 30],
         });
-        var customIcon2 = L.divIcon({
+        var customIcon6 = L.divIcon({
             className: 'leaflet-marker-icon',
             html: '6',
             iconSize: [30, 30],
         });
-        var customIcon3 = L.divIcon({
+        var customIcon1 = L.divIcon({
             className: 'leaflet-marker-icon',
             html: '1',
             iconSize: [30, 30],
         });
-        var customIcon4 = L.divIcon({
+        var customIcon3 = L.divIcon({
             className: 'leaflet-marker-icon',
             html: '3',
             iconSize: [30, 30],
@@ -193,35 +133,18 @@
             html: '5',
             iconSize: [30, 30],
         });
-        var customIcon6 = L.divIcon({
+        var customIcon2 = L.divIcon({
             className: 'leaflet-marker-icon',
             html: '2',
             iconSize: [30, 30],
         });
 
-        var imageIds = ['image', 'image1', 'image2', 'image3', 'image4', 'image5', 'image6', 'image7'];
-
-        function toggleImage(index) {
-            imageIds.forEach(function (id, i) {
-                var image = document.getElementById(id);
-                if (i === index) {
-                    if (image.classList.contains('hidden')) {
-                        image.classList.remove('hidden');
-                    }
-                } else {
-                    if (!image.classList.contains('hidden')) {
-                        image.classList.add('hidden');
-                    }
-                }
-            });
-        }
-
-        var point1 = L.marker([52.442458, -0.7133112], { icon: customIcon1 }).bindPopup("<a href='https://www.google.com' target='_blank'>Download Info</a>").addTo(map).on('click', function () { toggleImage(0); });
-        var point2 = L.marker([52.438266, -0.6743764], { icon: customIcon2 }).bindPopup("<a href='https://www.google.com' target='_blank'>Download Info</a>").addTo(map).on('click', function () { toggleImage(1); });
-        var point3 = L.marker([52.460049, -0.70595566], { icon: customIcon3 }).bindPopup("<a href='https://www.google.com' target='_blank'>Download Info</a>").addTo(map).on('click', function () { toggleImage(2); });
-        var point4 = L.marker([52.455243, -0.68344737], { icon: customIcon4 }).bindPopup("<a href='https://www.google.com' target='_blank'>Download Info</a>").addTo(map).on('click', function () { toggleImage(3); });
-        var point5 = L.marker([52.442761, -0.71181763], { icon: customIcon5 }).bindPopup("<a href='https://www.google.com' target='_blank'>Download Info</a>").addTo(map).on('click', function () { toggleImage(4); });
-        var point6 = L.marker([52.450667, -0.71288195], { icon: customIcon6 }).bindPopup("<a href='https://www.google.com' target='_blank'>Download Info</a>").addTo(map).on('click', function () { toggleImage(5); });
+        var point1 = L.marker([52.460049, -0.70595566], { icon: customIcon1 }).bindPopup("<a href='https://github.com/buccleuch/Oakley-Bush-BESS/raw/main/410.065427.00001.OB_PHOTOMONTAGE-VP15-low%20res.pdf' target='_blank'>Download Info</a>").addTo(map);
+        var point2 = L.marker([52.450667, -0.71288195], { icon: customIcon2 }).bindPopup("<a href='https://github.com/buccleuch/Oakley-Bush-BESS/raw/main/410.065427.00001.OB_PHOTOMONTAGE-VP10-low%20res.pdf' target='_blank'>Download Info</a>").addTo(map);
+        var point3 = L.marker([52.455243, -0.68344737], { icon: customIcon3 }).bindPopup("<a href='https://github.com/buccleuch/Oakley-Bush-BESS/raw/main/410.065427.00001.OB_PHOTOMONTAGE-VP14-low%20res.pdf' target='_blank'>Download Info</a>").addTo(map);
+        var point4 = L.marker([52.442458, -0.7133112], { icon: customIcon4 }).bindPopup("<a href='https://github.com/buccleuch/Oakley-Bush-BESS/raw/main/410.065427.00001.OB_PHOTOMONTAGE-VP7a-low%20res.pdf' target='_blank'>Download Info</a>").addTo(map);
+        var point5 = L.marker([52.442761, -0.71181763], { icon: customIcon5 }).bindPopup("<a href='https://github.com/buccleuch/Oakley-Bush-BESS/raw/main/410.065427.00001.OB_PHOTOMONTAGE-VP7b_low%20res.pdf' target='_blank'>Download Info</a>").addTo(map);
+        var point6 = L.marker([52.438266, -0.6743764], { icon: customIcon6 }).bindPopup("<a href='https://github.com/buccleuch/Oakley-Bush-BESS/raw/main/410.065427.00001.OB_PHOTOMONTAGE-VP3-low%20res.pdf' target='_blank'>Download Info</a>").addTo(map);
 
         var accessRoad = {
             "type": "FeatureCollection",
@@ -768,18 +691,28 @@
         L.geoJSON(powerstationInverter, { color: "#050505", fillColor: "#828583", fillOpacity: 1, weight: 1 }).bindTooltip("<p>Powerstation Inverter</p>").addTo(map);
         L.geoJSON(powerstationSwitch, { color: "#050505", fillColor: "#828583", fillOpacity: 1, weight: 1 }).bindTooltip("<p>Powerstation Switch</p>").addTo(map);
         L.geoJSON(powerstationTx, { color: "#050505", fillColor: "#828583", fillOpacity: 1, weight: 1 }).bindTooltip("<p>Powerstation Transformer</p>").addTo(map);
-        
-        // Link to Buccleuch Website
+
+        // Create a custom control
         var buccleuchWebsite = L.Control.extend({
             options: {
                 position: 'bottomright'
             },
             onAdd: function (map) {
                 var container = L.DomUtil.create('div', 'buccleuch-button');
-                container.innerHTML = 'Buccleuch Website';
-                container.onclick = function () {
-                    window.open('https://www.buccleuch.com/', '_blank');
-                };
+                var link = document.createElement('a'); // Create an anchor element
+                link.href = 'https://www.google.com'; // Set the href attribute to your desired link
+                link.target = '_blank'; // Open link in a new tab
+                link.style.display = 'block'; // Make the anchor element a block element to cover the whole image
+                var img = document.createElement('img');
+                img.src = 'https://raw.githubusercontent.com/buccleuch/Oakley-Bush-BESS/main/Buccleuch.jpg'; // Replace 'path/to/your/image.png' with the path to your image
+                img.alt = 'Buccleuch Logo'; // Alt text for accessibility
+                img.style.width = '80px'; // Adjust width as needed
+                img.style.height = '70px'; // Adjust height as needed
+                img.style.borderRadius = '20%'; // Add rounded corners
+                img.style.border = '2px solid black'; // Add black border
+                link.appendChild(img); // Append the image to the anchor element
+                container.appendChild(link); // Append the anchor element to the container
+
                 return container;
             }
         });
